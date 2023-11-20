@@ -1,12 +1,13 @@
 import Head from 'next/head'
 import styles from '../styles/HomeNoAuth.module.scss'
+import HeaderNoAuth from '../components/homeNoAuth/headerNoAuth'
 
 const HomeNoAuth = ()=>{
   return (
     <>
-      <h1>Olá mundo</h1>
-      <Head>Home</Head>
-      <main></main>
+      <main>
+        <HeaderNoAuth />
+      </main>
     </>
   )
 }
