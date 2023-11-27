@@ -1,0 +1,9 @@
+@import '../../../styles/colors.module.scss';
+
+.slideSectionBtn{
+  &:hover{
+    border-color: $lightRed;
+    background-color: transparent;
+    color: $lightRed;
+  }
+}
