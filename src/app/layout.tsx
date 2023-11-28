@@ -15,6 +15,7 @@ export default function RootLayout( {children}: { children: React.ReactNode }) {
     <html lang="pt-BR">
       <head>
         <link rel='shortcut icon' href='/favicon.png' type='image/x-icon' />
+        <script src="https://jsuites.net/v4/jsuites.js"></script>
         <meta property='og:title' content='codeflix' key="title" />
       </head>
       <body className={inter.className}>{children}</body>
