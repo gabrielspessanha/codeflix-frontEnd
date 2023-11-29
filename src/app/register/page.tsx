@@ -4,10 +4,66 @@ import styles from "../../styles/registerLogin.module.scss";
 import { HeaderGeneric } from "@/components/common/headerGeneric";
 import { Button, Container, Form, FormGroup, Input, Label } from "reactstrap";
 import { Footer } from "@/components/common/footer";
-
+import { FormEvent, useState } from 'react'
+import { useRouter } from "next/navigation";
+import ToastComponent from "@/components/common/toast";
 
 const Register = ()=>{
-  
+  const router = useRouter()
+  const [toastIsOpen, setToastIsOpen ] = useState(false)
+  const [toastMessage, setToastMessage ] = useState("")
+
+  const handleRegister = async (event: FormEvent<HTMLFormElement>) =>{
+    
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget)
+    const firstName = formData.get("firstName")!.toString()
+    const lastName = formData.get("lastName")!.toString()
+    const phone = formData.get("phone")!.toString()
+    const birth = formData.get("birth")!.toString()
+    const email = formData.get("email")!.toString()
+    const password = formData.get("password")!.toString()
+    const confirmPassword = formData.get("confirmPassword")!.toString()
+
+    const params = {
+      firstName,
+      lastName,
+      phone,
+      birth,
+      email,
+      password,
+    }
+
+    if(password != confirmPassword){
+      setToastIsOpen(true)
+      setTimeout(()=>{
+        setToastIsOpen(false)
+      }, 1000 * 3)
+      setToastMessage("Senha e confirmação diferentes")
+      return
+    }
+    const res = await fetch("http://localhost:3000/auth/register",{
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(params)
+    })
+
+    const{ status } = await res
+    const data = await res.json()
+    
+    if(status === 201){
+      router.push("/login?registred=true")
+    }else{
+      setToastIsOpen(true)
+      setTimeout(()=>{
+        setToastIsOpen(false)
+      }, 1000 * 3)
+      setToastMessage(data.message)
+    }
+    
+  }
+
   return(
     <>
         <main className={styles.main}>
@@ -20,13 +76,13 @@ const Register = ()=>{
             <p className={styles.formTitle}>
               <strong>Bem vindo(a) ao Codeflix</strong>
             </p>
-            <Form className={styles.form}>
+            <Form className={styles.form} onSubmit={handleRegister}>
               <p className="text-center"><strong>Faça a sua conta!</strong></p>
               <FormGroup>
                 <Label for="firstName" className={styles.label}>NOME</Label>
                 <Input 
                   id="firstName" 
-                  name="fisrtName" 
+                  name="firstName" 
                   type="text" 
                   placeholder="Digite seu nome" 
                   required
@@ -101,10 +157,10 @@ const Register = ()=>{
               </FormGroup>
 
               <FormGroup>
-                <Label for="password" className={styles.label}>CONFIRME SUA SENHA</Label>
+                <Label for="confirmPassword" className={styles.label}>CONFIRME SUA SENHA</Label>
                 <Input 
-                  id="password" 
-                  name="password" 
+                  id="confirmPassword" 
+                  name="confirmPassword" 
                   type="password" 
                   placeholder="confirme sua senha"
                   minLength={6}
@@ -119,6 +175,11 @@ const Register = ()=>{
             </Form>
           </Container>
           <Footer />
+          <ToastComponent 
+            color="bg-danger" 
+            isOpen={toastIsOpen} 
+            message={toastMessage} 
+          />
         </main>
     </>
   )
