@@ -1,10 +1,9 @@
 'use client'
-import { Metadata } from "next";
 import styles from "../../styles/registerLogin.module.scss";
 import { HeaderGeneric } from "@/components/common/headerGeneric";
 import { Button, Container, Form, FormGroup, Input, Label } from "reactstrap";
 import { Footer } from "@/components/common/footer";
-import { FormEvent, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import { useRouter } from "next/navigation";
 import ToastComponent from "@/components/common/toast";
 
@@ -12,6 +11,12 @@ const Register = ()=>{
   const router = useRouter()
   const [toastIsOpen, setToastIsOpen ] = useState(false)
   const [toastMessage, setToastMessage ] = useState("")
+
+  useEffect(()=>{
+    if(sessionStorage.getItem('codeflix-token')){
+      router.push('/home')
+    }
+  },[])
 
   const handleRegister = async (event: FormEvent<HTMLFormElement>) =>{
     

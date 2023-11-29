@@ -14,10 +14,14 @@ const Login = ()=>{
   const [toastMessage, setToastMessage ] = useState("")
   const searchParams= useSearchParams()
 
-
-  const registerSucess = searchParams.get("registred")
-
   useEffect(()=>{
+    if(sessionStorage.getItem('codeflix-token')){
+      router.push('/home')
+    }
+  },[])
+  
+  useEffect(()=>{
+    const registerSucess = searchParams.get("registred")
     if(registerSucess === "true"){
       setToastColor("bg-success")
       setToastIsOpen(true)
