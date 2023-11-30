@@ -1,8 +1,6 @@
 'use client'
 import styles from "../../styles/registerLogin.module.scss";
-import { HeaderGeneric } from "@/components/common/headerGeneric";
 import { Button, Container, Form, FormGroup, Input, Label } from "reactstrap";
-import { Footer } from "@/components/common/footer";
 import { FormEvent, useEffect, useState } from 'react'
 import { useRouter } from "next/navigation";
 import ToastComponent from "@/components/common/toast";
@@ -70,13 +68,7 @@ const Register = ()=>{
   }
 
   return(
-    <>
-        <main className={styles.main}>
-          <HeaderGeneric 
-            logoUrl="/" 
-            btnUrl="/login" 
-            btnContent="Quero fazer login" 
-          />
+       <>
           <Container className="py-5">
             <p className={styles.formTitle}>
               <strong>Bem vindo(a) ao Codeflix</strong>
@@ -179,15 +171,13 @@ const Register = ()=>{
 
             </Form>
           </Container>
-          <Footer />
           <ToastComponent 
             color="bg-danger" 
             isOpen={toastIsOpen} 
             message={toastMessage} 
           />
-        </main>
-    </>
-  )
+        </>
+      )
     
 }
 

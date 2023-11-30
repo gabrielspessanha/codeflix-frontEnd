@@ -1,15 +1,9 @@
-import { Footer } from '@/components/common/footer'
 import FavoriteCategory from '@/components/homeAuth/favoriteCategory'
 import FeaturedCategory from '@/components/homeAuth/featuredCategory'
 import FeaturedSection from '@/components/homeAuth/featuresSection'
 import ListCategories from '@/components/homeAuth/listCategories'
 import NewestCategory from '@/components/homeAuth/newestCategory'
-import type { Metadata } from 'next'
- 
-export const metadata: Metadata = {
-  title: 'Codeflix - Home',
-}
- 
+
 const HomeAuth = ()=>{
   return(
     <main>
@@ -18,7 +12,6 @@ const HomeAuth = ()=>{
       <FavoriteCategory />
       <FeaturedCategory />
       <ListCategories />
-      <Footer />
     </main>
   )
 }

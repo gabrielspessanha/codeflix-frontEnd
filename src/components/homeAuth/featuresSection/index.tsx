@@ -5,6 +5,7 @@ import useSWR from 'swr';
 import { HeaderAuth } from '@/components/common/headerAuth';
 import { Button, Container } from 'reactstrap';
 import Link from 'next/link';
+import Loader from '@/components/common/loader';
 
 
 const FeaturedSection = () => {
@@ -15,7 +16,7 @@ const FeaturedSection = () => {
   })
 
   if (error) return <div>falhou em carregar</div>
-  if (!data) return <div>carregando...</div>
+  if (!data) return <Loader />
 
   return (
     <>

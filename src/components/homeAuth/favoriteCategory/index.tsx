@@ -3,12 +3,13 @@ import useSWR from 'swr';
 import styles from '../../../styles/sildeCategory.module.scss';
 import courseService from '@/services/courseService';
 import SlideComponent from '@/components/common/slideComponent';
+import Loader from '@/components/common/loader';
 
 const FavoriteCategory = () => {
   const {data, error} = useSWR('/favorites', courseService.getFavCourses)
 
   if (error) return <div>falhou em carregar</div>
-  if (!data) return <div>carregando...</div>
+  if (!data) return <Loader />
   
   return (
     <div>
