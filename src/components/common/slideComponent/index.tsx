@@ -4,7 +4,6 @@ import { CourseType } from '@/services/courseService';
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 import '@splidejs/splide/dist/css/splide.min.css';
 import SlideCard from '../slideCard';
-import { Container } from 'reactstrap';
 
 interface Props {
   course: CourseType[];
