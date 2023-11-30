@@ -25,7 +25,7 @@ export const HeaderAuth = ()=>{
     setModalIsOpen(false)
   }
   const handleLogout = ()=>{
-    sessionStorage.clear
+    sessionStorage.removeItem('codeflix-token')
     router.push('/')
   }
   return(

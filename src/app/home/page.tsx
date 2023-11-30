@@ -1,4 +1,3 @@
-import { HeaderAuth } from '@/components/common/headerAuth'
 import FeaturedSection from '@/components/homeAuth/featuresSection'
 import type { Metadata } from 'next'
  
