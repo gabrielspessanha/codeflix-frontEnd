@@ -1,3 +1,4 @@
+import FavoriteCategory from '@/components/homeAuth/favoriteCategory'
 import FeaturedSection from '@/components/homeAuth/featuresSection'
 import NewestCategory from '@/components/homeAuth/newestCategory'
 import type { Metadata } from 'next'
@@ -11,6 +12,7 @@ const HomeAuth = ()=>{
     <main>
       <FeaturedSection />
       <NewestCategory />
+      <FavoriteCategory />
     </main>
   )
 }
