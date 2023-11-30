@@ -2,14 +2,18 @@
 import { Container, Form, Input } from 'reactstrap';
 import styles from './styles.module.scss';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Modal from 'react-modal'
 import { useRouter } from 'next/navigation';
 import ReactModal from 'react-modal';
 
-ReactModal.setAppElement('#main');
+
 
 export const HeaderAuth = ()=>{
+
+  useEffect(()=>{
+    ReactModal.setAppElement('#main');
+  },[])
   
   const router = useRouter()
   const [modalOpen, setModalIsOpen] = useState(false);
@@ -50,7 +54,6 @@ export const HeaderAuth = ()=>{
           shouldCloseOnEsc={true}
           className={styles.modal}
           overlayClassName={styles.overlayModal}
-        
         >
           <Link href='/profile'>
             <p className={styles.modalLink}>Meus Dados</p>
