@@ -1,13 +1,74 @@
 'use client'
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import styles from '../../../styles/profile.module.scss';
+import { FormEvent, useEffect, useState } from 'react';
+import profileService from '@/services/profileService';
+import ToastComponent from '@/components/common/toast';
+import { useRouter } from 'next/navigation';
+
 
 const UserForm = () =>{
+  const router = useRouter()
+  const [color, setColor] = useState("")
+  const [toastIsOpen, setToastIsOpen] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
+  const [phone, setPhone] = useState("")
+  const [email, setEmail] = useState("")
+  const [initialEmail, setInitialEmail] = useState(email)
+  const [created_at, setcreated_at] = useState("")
+  const date = new Date(created_at)
+  const month = date.toLocaleDateString("default", {month: "long"})
+
+
+  useEffect(()=>{
+    profileService.fetchCurrent().then((user)=>{
+      setFirstName(user.firstName)
+      setLastName(user.lastName)
+      setPhone(user.phone)
+      setEmail(user.email)
+      setInitialEmail(user.email)
+      setcreated_at(user.createdAt)
+    })
+  },[]);
+
+  const handleUserUpdate = async function (event: FormEvent){
+    event.preventDefault()
+
+    const res = await profileService.userUpdate({
+      firstName,
+      lastName,
+      phone,
+      email,
+      created_at
+    })
+
+    if(res === 200) {
+      setToastIsOpen(true)
+      setErrorMessage("Informações alteradas com sucesso!")
+      setColor("bg-success")
+      setTimeout(()=> setToastIsOpen(false), 1000 * 3);
+      if(email !== initialEmail){
+        sessionStorage.removeItem("codeflix-token")
+        router.push("/")
+      }
+    }else{
+      setToastIsOpen(true)
+      setErrorMessage("Você não pode mudar para este email!")
+      setColor("bg-danger")
+      setTimeout(()=> setToastIsOpen(false), 1000 * 3)
+    }
+  }
+
   return(
-    <Form className={styles.form}>
+    <>
+    <Form onSubmit={handleUserUpdate} className={styles.form}>
       <div className={styles.formName}>
-        <p className={styles.nameAbbreviation}>NT</p>
-        <p className={styles.userName}>NAME TEST</p>
+        <p className={styles.nameAbbreviation}>
+          {firstName.slice(0,1)}{lastName.slice(0,1)}
+        </p>
+        <p className={styles.userName}>{`${firstName} ${lastName}`}</p>
       </div>
 
       <div className={styles.memberTime}>
@@ -17,7 +78,7 @@ const UserForm = () =>{
           className={styles.memberTimeImg}
         />
         <p className={styles.memberTimeText}>
-          Menbro desde <br/> 23 de feveireiro de 2003
+          Menbro desde <br/> {`${date.getDate()} de ${month} de ${date.getFullYear()}`}
         </p>
       </div>
 
@@ -34,7 +95,8 @@ const UserForm = () =>{
             required
             maxLength={20}
             className={styles.inputFlex}
-            value={'name'}
+            value={firstName}
+            onChange={(event) => setFirstName(event.target.value)}
           />
         </FormGroup>
 
@@ -48,7 +110,8 @@ const UserForm = () =>{
             required
             maxLength={20}
             className={styles.inputFlex}
-            value={'test'}
+            value={lastName}
+            onChange={(event) => setLastName(event.target.value)}
           />
         </FormGroup>
       </div>
@@ -63,7 +126,8 @@ const UserForm = () =>{
             placeholder='(xx) 9xxxxx-xxxx'
             required
             className={styles.input}
-            value={'+55 (21) 999999-9999'}
+            value={phone}
+            onChange={(event) => setPhone(event.target.value)}
           />
         </FormGroup>
 
@@ -76,7 +140,8 @@ const UserForm = () =>{
             placeholder='Digite seu email'
             required
             className={styles.input}
-            value={'teste@gmail.com'}
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
           />
         </FormGroup>
 
@@ -86,6 +151,8 @@ const UserForm = () =>{
       </div>
       
     </Form>
+    <ToastComponent color={color} isOpen={toastIsOpen} message={errorMessage} />
+    </>
   )
 }
 

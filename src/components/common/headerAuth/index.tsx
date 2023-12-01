@@ -6,13 +6,20 @@ import { useEffect, useState } from 'react';
 import Modal from 'react-modal'
 import { useRouter } from 'next/navigation';
 import ReactModal from 'react-modal';
+import profileService from '@/services/profileService';
 
 
 
 export const HeaderAuth = ()=>{
+  const [initials, setInitials] = useState("")
 
   useEffect(()=>{
     ReactModal.setAppElement('#main');
+    profileService.fetchCurrent().then((user)=>{
+      const firstNameInitial = user.firstName.slice(0,1)
+      const lastNameInitial = user.lastName.slice(0,1)
+      setInitials(firstNameInitial + lastNameInitial)
+    })
   },[])
   
   const router = useRouter()
@@ -46,7 +53,9 @@ export const HeaderAuth = ()=>{
           alt="lupaHeader" 
           className={styles.searchImg} 
         />
-        <p className={styles.userProfile} onClick={handleOpenModal}>AB</p>
+        <p className={styles.userProfile} onClick={handleOpenModal}>
+          {initials}
+        </p>
       </div>
         <Modal 
           isOpen={modalOpen} 
