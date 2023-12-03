@@ -1,25 +1,31 @@
 'use client'
-import { Button, Col, Container, Row } from "reactstrap"
+import { Button, Col} from "reactstrap"
 import styles from '../../../styles/profile.module.scss';
-import UserForm from "../user";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const Dashboard = () => {
-  return (
-    <Container className='py-5'>
-        <p className={styles.title}>Minha conta</p>
-        <Row className='pt-3 pb-5'>
-          <Col md={4} className={styles.btnColumn}>
-            <Button className={styles.renderForm}>DADOS PESSOAIS</Button>
-            <Button className={styles.renderForm}>SENHA</Button>
-          </Col>
+  const searchParams = useSearchParams()
 
-          <Col md>
-            <UserForm />
-          </Col>
-        </Row>
-        
-    </Container>
-  )
+  const search = searchParams.get('value')
+
+  return (
+    <Col md={4} className={styles.btnColumn}>
+      <Button 
+        className={styles.renderForm} 
+        href="/profile?value=1"
+        style={{color: search === '1'? '#FF0044' : 'white'}}
+      >
+        DADOS PESSOAIS
+      </Button>
+      <Button 
+        className={styles.renderForm} 
+        href="/profile/password?value=2"
+        style={{color: search === '2'? '#FF0044' : 'white'}}
+      >
+        SENHA
+      </Button>
+    </Col>
+  )       
 }
 
 export default Dashboard

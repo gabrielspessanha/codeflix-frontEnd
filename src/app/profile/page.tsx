@@ -1,26 +1,9 @@
-import { Metadata } from 'next/types';
-import { HeaderAuth } from '@/components/common/headerAuth';
-import Dashboard from '@/components/profile/dashboard';
-import { Footer } from '@/components/common/footer';
-import styles from '../../styles/profile.module.scss';
 
-export const metadata: Metadata = {
-  title: 'Codeflix - Meus dados',
-}
+import UserForm from '@/components/profile/user';
+import { Col } from 'reactstrap';
+
 const Profile = () => {
-  return (
-    <main>
-      <div className={styles.header}>
-        <HeaderAuth />
-      </div>
-      
-      <Dashboard />
-
-      <div className={styles.footer}>
-        <Footer />
-      </div>
-    </main>
-  )
+  return <Col md><UserForm/></Col>
 }
 
 export default Profile

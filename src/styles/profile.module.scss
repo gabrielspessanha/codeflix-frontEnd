@@ -1,5 +1,9 @@
 @import './colors.module.scss';
 
+.main{
+  background-image: linear-gradient(to bottom, #6463631a, black);
+}
+
 .header{
   background-color: black;
 }
@@ -91,6 +95,8 @@
   font-weight: bold;
   font-size: 15px;
   padding: 6px 20px;
+  display: block;
+  margin: 10px auto;
   &:hover{
     border-color: $lightRed;
     background-color: transparent;
@@ -115,8 +121,15 @@
 
   &:hover{
     background-color: transparent;
-    border-color: $lightRed;
-    color: $lightGray;
+    color: $lightRed;
+    border-color: $lightGray;
+  }
+  &:active{
+    background-color: transparent;
+  }
+  &:focus{
+    background-color: transparent;
+    box-shadow: none;
   }
 }
 
