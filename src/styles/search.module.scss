@@ -5,6 +5,10 @@
   background-image: linear-gradient(to bottom, #151515, black);
 }
 
+.searchContainer{
+  flex: 1 0 auto
+}
+
 .noSearchText{
   text-align: center;
   padding: 20px;

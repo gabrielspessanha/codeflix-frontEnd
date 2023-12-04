@@ -47,7 +47,7 @@ export const HeaderAuth = ()=>{
   const handleSearchClick = (event: FormEvent) => {
     event.preventDefault()
 
-    router.push(`search?name=${searchName}`)
+    router.push(`/search?name=${searchName}`)
     setSearchName("")
   }
   return(

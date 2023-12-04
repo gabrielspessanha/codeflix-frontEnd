@@ -1,0 +1,9 @@
+.courseContainer{
+  flex: 1 0 auto
+}
+
+.main{
+  display: flex;
+  flex-direction: column;
+  background-image: linear-gradient(to bottom, #151515, black);
+}
