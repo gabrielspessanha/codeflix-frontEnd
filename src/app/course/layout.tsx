@@ -19,9 +19,7 @@ export default function layout({
       <div className={styles.header}>
         <HeaderAuth />
       </div>
-      <Container className={styles.courseContainer}>
-        {children}
-      </Container>
+      {children}
     <Footer />
   </main>
   )

@@ -57,11 +57,11 @@ const courseService = {
   },
   removeFav: async (courseId: number | string) =>{
     const token = sessionStorage.getItem('codeflix-token')
-    const res = await api.delete('/favorites',{
+    const res = await api
+    .delete(`/favorites/${courseId}`,{
       headers: {
         Authorization: `Bearer ${token}`
-      },
-      data: { courseId }
+      }
     }).catch(error => {
       return error.response
     })
@@ -84,8 +84,7 @@ const courseService = {
   },
   like: async (courseId: number | string)=> {
     const token = sessionStorage.getItem('codeflix-token');
-
-    const res = await api.post(`/likes`, courseId ,{
+    const res = await api.post(`/likes`, {courseId} ,{
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -108,7 +107,6 @@ const courseService = {
     })
 
     return res
-
   },
   getSearch: async (name:string)=>{
     const token = sessionStorage.getItem('codeflix-token');
