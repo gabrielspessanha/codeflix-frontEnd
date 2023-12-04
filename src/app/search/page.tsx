@@ -3,6 +3,9 @@ import { HeaderAuth } from '@/components/common/headerAuth'
 import courseService, { CourseType } from '@/services/courseService'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import styles from '../../styles/search.module.scss'
+import { Container } from 'reactstrap'
+import SearchCard from '@/components/searchCard'
 
 const Search = () => {
   const searchParams = useSearchParams()
@@ -18,14 +21,17 @@ const Search = () => {
   }, [searchName])
 
   return (
-    <main>
-      <HeaderAuth />
-      {searchResult?.map((course)=>(
-        <div key={course.id}>
-          <p>{course.name}</p>
-        </div>
-      ))}
-    </main>
+    <>
+      {searchResult.length >= 1 ?
+      <Container className='d-flex flex-wrap justify-content-center gap-5 py-4'>
+        {searchResult?.map((course)=>(
+          <SearchCard key={course.id} course={course} />
+        ))}
+      </Container>
+      :(
+        <p className={styles.noSearchText}>Nenhum resultado encontrado</p>
+      )}
+    </>
   )
 }
 export default Search
