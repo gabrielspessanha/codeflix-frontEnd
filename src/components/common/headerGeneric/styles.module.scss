@@ -1,8 +1,8 @@
 @import "../../../styles/colors.module.scss";
-.header{
+.header {
   background-color: black;
 }
-.headerContainer{
+.headerContainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -11,25 +11,25 @@
   gap: 16px;
 }
 
-.headerLogo{
+.headerLogo {
   width: 180px;
   cursor: pointer;
 }
 
-.headerBtn:hover{
+.headerBtn:hover {
   border-color: $lightRed;
   color: $lightGray;
   background-color: transparent;
 }
 
-@media(max-width: 575px){
-  .headerContainer{
+@media (max-width: 575px) {
+  .headerContainer {
     padding: 20px 16px;
   }
 }
 
-@media(max-width: 384px){
-  .headerContainer{
+@media (max-width: 390px) {
+  .headerContainer {
     justify-content: center;
   }
 }
