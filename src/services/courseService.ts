@@ -1,140 +1,155 @@
-import api from './api';
+import api from "./api";
 
 export type EpisodeType = {
-  id: number,
-  name: string,
-  synopsis: string,
-  order: number,
-  videoUrl: string,
-  secondsLong: number
-}
+  id: number;
+  name: string;
+  synopsis: string;
+  order: number;
+  videoUrl: string;
+  secondsLong: number;
+};
 
 export type CourseType = {
-  id: number,
-  name: string,
-  thumbnailUrl: string,
-  synopsis: string,
-  episodes?: EpisodeType[]
+  id: number;
+  name: string;
+  thumbnailUrl: string;
+  synopsis: string;
+  episodes?: EpisodeType[];
 };
 
 const courseService = {
-  getNewestCourses: async ()=> {
-    
-    const res = await api
-    .get("/courses/newest")
-    .catch(error => {
-      return error.response
+  getNewestCourses: async () => {
+    const res = await api.get("/courses/newest").catch((error) => {
+      return error.response;
     });
 
     return res;
   },
-  getFeaturedCourses : async ()=>{
+  getFeaturedCourses: async () => {
     const token = sessionStorage.getItem("codeflix-token");
 
     const res = await api
-    .get('/courses/featured',{
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-    .catch(error =>{
-      return error.response
-    })
-    return res
+      .get("/courses/featured", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .catch((error) => {
+        return error.response;
+      });
+    return res;
   },
-  addToFav: async (courseId: number | string)=> {
-    const token = sessionStorage.getItem('codeflix-token');
+  addToFav: async (courseId: number | string) => {
+    const token = sessionStorage.getItem("codeflix-token");
 
-    const res = api.post('/favorites', {courseId}, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }).catch(error => {
-      return error.response
-    })
+    const res = api
+      .post(
+        "/favorites",
+        { courseId },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .catch((error) => {
+        return error.response;
+      });
 
-    return res
+    return res;
   },
-  removeFav: async (courseId: number | string) =>{
-    const token = sessionStorage.getItem('codeflix-token')
+  removeFav: async (courseId: number | string) => {
+    const token = sessionStorage.getItem("codeflix-token");
     const res = await api
-    .delete(`/favorites/${courseId}`,{
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }).catch(error => {
-      return error.response
-    })
+      .delete(`/favorites/${courseId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .catch((error) => {
+        return error.response;
+      });
 
-    return res
+    return res;
   },
-  getFavCourses: async ()=> {
-    const token = sessionStorage.getItem('codeflix-token');
+  getFavCourses: async () => {
+    const token = sessionStorage.getItem("codeflix-token");
 
-    const res = await api.get('/favorites',{
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }).catch(error => {
-      return error.response
-    })
+    const res = await api
+      .get("/favorites", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .catch((error) => {
+        return error.response;
+      });
 
-    return res
-
+    return res;
   },
-  like: async (courseId: number | string)=> {
-    const token = sessionStorage.getItem('codeflix-token');
-    const res = await api.post(`/likes`, {courseId} ,{
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }).catch(error => {
-      return error.response
-    })
+  like: async (courseId: number | string) => {
+    const token = sessionStorage.getItem("codeflix-token");
+    const res = await api
+      .post(
+        `/likes`,
+        { courseId },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .catch((error) => {
+        return error.response;
+      });
 
-    return res
-
+    return res;
   },
-  removeLike: async (courseId: number | string)=> {
-    const token = sessionStorage.getItem('codeflix-token');
+  removeLike: async (courseId: number | string) => {
+    const token = sessionStorage.getItem("codeflix-token");
 
-    const res = await api.delete(`/likes/${courseId}`,{
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }).catch(error => {
-      return error.response
-    })
+    const res = await api
+      .delete(`/likes/${courseId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .catch((error) => {
+        return error.response;
+      });
 
-    return res
+    return res;
   },
-  getSearch: async (name:string)=>{
-    const token = sessionStorage.getItem('codeflix-token');
+  getSearch: async (name: string) => {
+    const token = sessionStorage.getItem("codeflix-token");
 
-    const res = await api.get(`/courses/search?name=${name}`,{
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }).catch(error => {
-      return error.response
-    })
+    const res = await api
+      .get(`/courses/search?name=${name}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .catch((error) => {
+        return error.response;
+      });
 
-    return res
+    return res;
   },
-  getEpisodes: async (id: number | string)=>{
-    const token = sessionStorage.getItem('codeflix-token');
+  getEpisodes: async (id: number | string) => {
+    const token = sessionStorage.getItem("codeflix-token");
 
-    const res = await api.get(`/courses/${id}`,{
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }).catch(error => {
-      return error.response
-    })
+    const res = await api
+      .get(`/courses/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .catch((error) => {
+        return error.response;
+      });
 
-    return res
+    return res;
   },
+};
 
-}
-
-export default courseService
+export default courseService;

@@ -22,7 +22,11 @@ const EpisodeList = ({ episode, course }: props) => {
     return result;
   };
   return (
-    <Link href={`/course/episode/${episode.order - 1}?courseId=${course.id}`}>
+    <Link
+      href={`/course/episode/${episode.order - 1}?courseId=${
+        course.id
+      }&episodeId=${episode.id}`}
+    >
       <div className={styles.episodeCard}>
         <div className={styles.episodeOrderTime}>
           <p className={styles.episodeOrder}>Episodio N° {episode.order}</p>

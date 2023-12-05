@@ -2,19 +2,48 @@
 import { useSearchParams } from "next/navigation";
 import styles from "../../../../styles/episodePlayer.module.scss";
 import { HeaderGeneric } from "@/components/common/headerGeneric";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import courseService, { CourseType } from "@/services/courseService";
 import Loading from "@/app/loading";
 import { Button, Container } from "reactstrap";
 import ReactPlayer from "react-player";
 import Link from "next/link";
+import watchEpisodeService from "@/services/episodeService";
 
 const EpisodePlayer = ({ params }: { params: { id: string } }) => {
   const searchParams = useSearchParams();
   const [course, setCourse] = useState<CourseType>();
-  const search = searchParams.get("courseId");
-  const courseId = parseFloat(search!);
+  const [isReady, setIsReady] = useState(false);
+  const searchCourseId = searchParams.get("courseId");
+  const searchEpisodeId = searchParams.get("episodeId");
+
+  const courseId = parseFloat(searchCourseId!);
+  const episodeId = parseFloat(searchEpisodeId!);
+
   const episodeOrder = parseFloat(params.id);
+
+  const [getEpisodeTime, setGetEpisodeTime] = useState(0);
+  const [episodeTime, setEpisodeTime] = useState(0);
+
+  const playerRef = useRef<ReactPlayer>(null);
+
+  const handleGetEpisodeTime = async () => {
+    const res = await watchEpisodeService.getWatchTime(episodeId);
+    if (res.data !== null) {
+      setGetEpisodeTime(res.data.seconds);
+    }
+  };
+
+  const handleSetPlayerTime = async () => {
+    await watchEpisodeService.setWatchTime({
+      episodeId,
+      seconds: Math.round(episodeTime),
+    });
+  };
+
+  useEffect(() => {
+    handleGetEpisodeTime();
+  }, [episodeId]);
 
   const getCourse = async () => {
     const res = await courseService.getEpisodes(courseId);
@@ -27,7 +56,19 @@ const EpisodePlayer = ({ params }: { params: { id: string } }) => {
   useEffect(() => {
     getCourse();
   }, [courseId]);
+
+  const handlePlayerTime = () => {
+    playerRef.current?.seekTo(getEpisodeTime);
+    setIsReady(true);
+  };
+
   if (course?.episodes === undefined) return <Loading />;
+
+  if (isReady === true) {
+    setTimeout(() => {
+      handleSetPlayerTime();
+    }, 1000 * 3);
+  }
 
   return (
     <main>
@@ -47,6 +88,11 @@ const EpisodePlayer = ({ params }: { params: { id: string } }) => {
               course.episodes[episodeOrder].videoUrl
             }&token=${sessionStorage.getItem("codeflix-token")}`}
             controls
+            ref={playerRef}
+            onStart={handlePlayerTime}
+            onProgress={(progress) => {
+              setEpisodeTime(progress.playedSeconds);
+            }}
           />
         )}
         <div className={styles.episodeButtonDiv}>
@@ -56,7 +102,9 @@ const EpisodePlayer = ({ params }: { params: { id: string } }) => {
           >
             {" "}
             <Link
-              href={`/course/episode/${episodeOrder - 1}?courseId=${course.id}`}
+              href={`/course/episode/${episodeOrder - 1}?courseId=${
+                course.id
+              }&episodeId=${episodeId}`}
             >
               <img
                 src="/episode/iconArrowLeft.svg"
@@ -73,7 +121,9 @@ const EpisodePlayer = ({ params }: { params: { id: string } }) => {
             }
           >
             <Link
-              href={`/course/episode/${episodeOrder + 1}?courseId=${course.id}`}
+              href={`/course/episode/${episodeOrder + 1}?courseId=${
+                course.id
+              }&episodeId=${episodeId}`}
             >
               <img
                 src="/episode/iconArrowRight.svg"
