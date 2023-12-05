@@ -3,6 +3,7 @@ import courseService, { CourseType } from "@/services/courseService"
 import { useEffect, useState } from "react"
 import { Button, Container } from "reactstrap"
 import styles from '../../../styles/course.module.scss';
+import EpisodeList from "@/components/episodeList";
 
 export default function Page({ params }: { params: { id: string } }) {
   const [course, setCourse] = useState<CourseType>()
@@ -59,7 +60,10 @@ export default function Page({ params }: { params: { id: string } }) {
     <Container className={styles.courseInfo}>
       <p className={styles.courseTitle}>{course?.name}</p>
       <p className={styles.courseDescription}>{course?.synopsis}</p>
-      <Button outline className={styles.courseBtn}>
+      <Button 
+        outline 
+        className={styles.courseBtn} 
+        disabled={course?.episodes?.length === 0? true : false}>
         ASSISTIR AGORA!
         <img 
           src="/buttonPlay.svg" 
@@ -103,6 +107,19 @@ export default function Page({ params }: { params: { id: string } }) {
           }
 
       </div>
+    </Container>
+    <Container className={styles.episodeInfo}>
+      <p className={styles.episodeDivision}>EPISÓDIOS</p>
+      <p className={styles.episodeLenght}>
+        {course?.episodes?.length} episódios
+      </p>
+      {course?.episodes?.length === 0 ? (
+        <p>Sem episódios no momento😔</p>
+      ):(
+        course?.episodes?.map((episode)=>(
+          <EpisodeList key={episode.id} episode={episode} />
+         ))
+      )}
     </Container>
   </>
   ) 
