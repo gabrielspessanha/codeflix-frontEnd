@@ -1,13 +1,27 @@
+"use client";
 import { HeaderAuth } from "@/components/common/headerAuth";
 import { Metadata } from "next/types";
 import styles from "../../styles/course.module.scss";
 import { Container } from "reactstrap";
 import { Footer } from "@/components/common/footer";
-
-export const metadata: Metadata = {
-  title: "Codeflix - Meus Dados",
-};
+import { useEffect, useState } from "react";
+import Loading from "../loading";
+import { useRouter } from "next/navigation";
 
 export default function layout({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    if (!sessionStorage.getItem("codeflix-token")) {
+      router.push("/login");
+    } else {
+      setLoading(false);
+    }
+  }, []);
+
+  if (loading) {
+    return <Loading />;
+  }
+
   return <main className={styles.main}>{children}</main>;
 }

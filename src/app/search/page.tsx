@@ -1,41 +1,55 @@
-'use client'
-import { HeaderAuth } from '@/components/common/headerAuth'
-import courseService, { CourseType } from '@/services/courseService'
-import { useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import styles from '../../styles/search.module.scss'
-import { Container } from 'reactstrap'
-import SearchCard from '@/components/searchCard'
+"use client";
+import { HeaderAuth } from "@/components/common/headerAuth";
+import courseService, { CourseType } from "@/services/courseService";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import styles from "../../styles/search.module.scss";
+import { Container } from "reactstrap";
+import SearchCard from "@/components/searchCard";
+import Loading from "../loading";
 
 const Search = () => {
-  const searchParams = useSearchParams()
-  const searchName: any = searchParams.get('name')
-  const [searchResult, setSearchResult] = useState<CourseType[]>([])
-  
-  const searchCourses = async ()=>{
-      const res = await courseService.getSearch(searchName)
-      setSearchResult(res.data.Courses)
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  const searchParams = useSearchParams();
+  const searchName: any = searchParams.get("name");
+  const [searchResult, setSearchResult] = useState<CourseType[]>([]);
+
+  const searchCourses = async () => {
+    const res = await courseService.getSearch(searchName);
+    setSearchResult(res.data.Courses);
   };
-  useEffect( ()=> {
-    searchCourses()
-  }, [searchName])
+  useEffect(() => {
+    if (!sessionStorage.getItem("codeflix-token")) {
+      router.push("/login");
+    } else {
+      setLoading(false);
+    }
+  }, []);
+  if (loading) {
+    return <Loading />;
+  }
+
+  useEffect(() => {
+    searchCourses();
+  }, [searchName]);
 
   return (
     <>
-      {searchResult.length >= 1 ?
+      {searchResult.length >= 1 ? (
         <div className={styles.searchContainer}>
-          <Container className='d-flex flex-wrap justify-content-center gap-5 py-4'>
-            {searchResult?.map((course)=>(
+          <Container className="d-flex flex-wrap justify-content-center gap-5 py-4">
+            {searchResult?.map((course) => (
               <SearchCard key={course.id} course={course} />
             ))}
           </Container>
         </div>
-      :(
+      ) : (
         <div className={styles.searchContainer}>
           <p className={styles.noSearchText}>Nenhum resultado encontrado</p>
         </div>
       )}
     </>
-  )
-}
-export default Search
+  );
+};
+export default Search;
