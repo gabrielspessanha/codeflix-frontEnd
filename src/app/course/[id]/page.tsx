@@ -55,8 +55,10 @@ export default function Page({ params }: { params: { id: string } }) {
         style={{
           backgroundImage: `linear-gradient(to bottom, #6666661a, #151515), url(${process.env.NEXT_PUBLIC_BASEURL}/${course?.thumbnailUrl})`,
           backgroundSize: "cover",
+          backgroundRepeat: 'no-repeat',
+          objectFit:'cover',
           backgroundPosition: "center",
-          minHeight: "550px",
+          minHeight: "700px",
         }}
       ></div>
       <Container className={styles.courseInfo}>

@@ -13,13 +13,14 @@
 
   &:hover{
     border-color: $lightRed;
-    height: 330px;
+    height: 380px;
   }
 }
 
 .slideImg{
   width: 100%;
-  height: 170px;
+  height: 200px;
+  object-fit: cover;
 }
 
 .slideTitle{
