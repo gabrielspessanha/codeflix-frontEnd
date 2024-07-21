@@ -11,17 +11,26 @@ interface Props {
 
 const SlideSection = async () =>{
   const response = await courseService.getNewestCourses()
-  const course = response.data
+  const course = response?.data
 
-  return(
-    <>
-      <Container className="d-flex flex-column align-items-center py-5">
-        <p className={styles.sectionTitle}>AULAS JÁ DISPONIVEIS</p>
-        <SlideComponent course={course} />
-        <BtnRegister />
-      </Container>
-    </>
-  )
+  if(course){
+    return(
+      <>
+        <Container className="d-flex flex-column align-items-center py-5">
+          <p className={styles.sectionTitle}>AULAS JÁ DISPONIVEIS</p>
+          <SlideComponent course={course} />
+          <BtnRegister />
+        </Container>
+      </>
+    )
+  }else{
+      <>
+        <Container className="d-flex flex-column align-items-center py-5">
+          <p className={styles.sectionTitle}>SEM AULAS DISPONIVEIS</p>
+        </Container>
+      </>
+  }
+  
 }
 
 export default SlideSection

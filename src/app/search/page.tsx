@@ -1,5 +1,4 @@
 "use client";
-import { HeaderAuth } from "@/components/common/headerAuth";
 import courseService, { CourseType } from "@/services/courseService";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -19,20 +18,24 @@ const Search = () => {
     const res = await courseService.getSearch(searchName);
     setSearchResult(res.data.Courses);
   };
+
   useEffect(() => {
+
     if (!sessionStorage.getItem("codeflix-token")) {
       router.push("/login");
     } else {
       setLoading(false);
     }
   }, []);
+  
+  useEffect(() => {
+    searchCourses();
+  }, [searchName]);
+
   if (loading) {
     return <Loading />;
   }
 
-  useEffect(() => {
-    searchCourses();
-  }, [searchName]);
 
   return (
     <>

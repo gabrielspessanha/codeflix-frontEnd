@@ -1,9 +1,5 @@
 "use client";
-import { HeaderAuth } from "@/components/common/headerAuth";
-import { Metadata } from "next/types";
 import styles from "../../styles/course.module.scss";
-import { Container } from "reactstrap";
-import { Footer } from "@/components/common/footer";
 import { useEffect, useState } from "react";
 import Loading from "../loading";
 import { useRouter } from "next/navigation";
